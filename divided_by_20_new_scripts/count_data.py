@@ -37,6 +37,8 @@ df = pd.DataFrame(reform).T
 df1=df.loc[1].T
 for i in range(2,141):
 	df1=pd.concat([df1, df.loc[i].T])
-#df1.to_csv('result/shuukei.csv')
+print(df1)
+print(df1.shape)
+df1.to_csv('./../divided_by_20_results/shuukei.csv')
 print(df1)
 

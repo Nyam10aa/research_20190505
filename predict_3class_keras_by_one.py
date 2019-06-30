@@ -6,48 +6,44 @@ import keras
 import numpy as np
 import pandas as pd
 import sys
+import boto3
+import io
 
+def read_from_s3(file_path, file_name):
+        s3 = boto3.client('s3')
+        obj = s3.get_object(Bucket='takenaka', Key = file_path + file_name)
+        return io.BytesIO(obj['Body'].read())
 
+model_type = int(sys.argv[1])
+start = int(sys.argv[2])
+output = sys.argv[3]
 
-model = int(sys.argv[1])
-test_start = int(sys.argv[2])
-test_end = int(sys.argv[3])
+end = start
 
+#x_test_total = np.load("divided_by_20/datas_%03d_%03d.npy" % (start, start))
+#y_test_total = np.load("divided_by_20/labels_%03d_%03d.npy" % (start, start))
 
-
-start=121
-end=140
-#x = np.load("%03d_%03d_for_test/learn_data.npy" % (start,end))
-#y = np.load("%03d_%03d_for_test/learn_labels.npy" % (start,end))
-
-#x_test = np.load("%03d_%03d_for_test/test_data.npy" % (start,end))
-#y_test = np.load("%03d_%03d_for_test/test_labels.npy" % (start,end))
-
-x_test_total = np.load("l%03d_%03d_for_test/test_data.npy" % (start,end))
-y_test_total = np.load("l%03d_%03d_for_test/test_labels.npy" % (start,end))
-
-
-model = keras.models.load_model('keras_model/model_new.h5', compile=False)
+x_test_total = np.load(read_from_s3('processed_data_STD/', 'datas_%03d_%03d.npy' % (start, start)))
+y_test_total = np.load(read_from_s3('processed_data_STD/', 'labels_%03d_%03d.npy' % (start, start)))
+print(x_test_total.shape)
+print(y_test_total.shape)
+model = keras.models.load_model("divided_by_20_keras_model/M2_kaigi3/model_case_%d.h5" % model_type, compile=False)
+#model = keras.models.load_model(read_from_s3('model_STD/','model_case_%d.h5' % model_type),compile = False)
 model.compile(loss="categorical_crossentropy",optimizer=SGD(lr=0.0001, momentum=0.9), metrics=["accuracy"])
 
 score = model.evaluate(x_test_total, y_test_total, verbose=0)
-#result = model.predict(x_test)
+
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
-
-
-pic_name = pd.read_csv("pic_name_new.csv")["filename"].tolist()
+pic_name = pd.read_csv("divided_by_20_pic_name/pic_name_%03d_%03d.csv" % (start, start))["filename"].tolist()
 
 pic_name1 = []
 for i in range(len(pic_name)):
         for folder in range(start, end+1):
                 if pic_name[i].startswith("%03d" % folder):
                         pic_name1.append(pic_name[i])
-#print(pic_name)
-#print(pic_name1)
-#print(len(pic_name))
-#print(len(pic_name1))
+
 pic_name=pic_name1
 def find_pic_index_from_name_list(folder):
         res=[]
@@ -56,7 +52,6 @@ def find_pic_index_from_name_list(folder):
                         res.append(i)
         #print(res)
         return res
-#find_pic_index_from_name_list("002")
 
 def emotion_to_vec(x):
     d = np.zeros(5)
@@ -165,7 +160,10 @@ for folder in range(start, end+1):
                 matched=matched+table_dic_for_total[j][j]
                 alll=alll+np.sum(table_dic_for_total[j])
         print(matched/float(alll))
-        #---------------------------------------
+	with open(output, mode="a") as f:
+		f.write(str(model_type)+","+str(start)+","+str(matched/float(alll))+"\n")
+        f.close()
+	#---------------------------------------
 print("big_dic and big_dic_detailed")
 print(big_dic)
 print(big_dic_detailed)

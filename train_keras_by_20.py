@@ -19,23 +19,29 @@ import sys
 #y_test = np.load("divided_by_20/labels_121_140.npy")
 case_type = int(sys.argv[1])
 
-def case_1():
-	train_list = list(range(1,4))
+def case_2():
+	#train_list = list(range(36,141))
+	train_list = list(range(141,724))# + list(range(106,141))
+	print("train set")
+	print(train_list)
 	case = train_list[0]
-	x = np.load("./../divided_by_20/datas_%03d_%03d.npy" % (case, case))
-	y = np.load("./../divided_by_20/labels_%03d_%03d.npy" % (case, case))
+	x = np.load("./divided_by_20/datas_%03d_%03d.npy" % (case, case))
+	y = np.load("./divided_by_20/labels_%03d_%03d.npy" % (case, case))
 	for case in train_list[1:]:
 		print("check")
 		print(len(x))
 		print(len(y))
-		x1= np.load("./../divided_by_20/datas_%03d_%03d.npy" % (case, case))
-		y1= np.load("./../divided_by_20/labels_%03d_%03d.npy" % (case, case))
+		x1= np.load("./divided_by_20/datas_%03d_%03d.npy" % (case, case))
+		y1= np.load("./divided_by_20/labels_%03d_%03d.npy" % (case, case))
 		x = np.concatenate([x, x1])
 		y = np.concatenate([y, y1])
 	return x, y
 
-if case_type == 1:
-	x,y = case_1()
+if case_type == 2:
+	x,y = case_2()
+
+#x = np.load("./divided_by_20/datas_%03d_%03d.npy" % (case_type, case_type))
+#y = np.load("./divided_by_20/labels_%03d_%03d.npy" % (case_type, case_type))
 print(x.shape)
 print(y.shape)
 #X = x.reshape(x.shape[0], 360*18*3)
@@ -81,10 +87,10 @@ class TestCallback(keras.callbacks.Callback):
         print('\nTesting loss: {}, acc: {}\n'.format(loss, acc))
 
 
-num_epoch=20
+#num_epoch=20
 #model.fit(X, y, validation_data=(X_test, y_test), callbacks=[TestCallback((X_test, y_test))], epochs=num_epoch+1, batch_size=100,verbose=0)
 #for i in range(10):
-hist=model2.fit(x,y, validation_split=0.01, batch_size=100, epochs=1) 
+hist=model2.fit(x,y, validation_split=0.01, batch_size=100, epochs=20) 
 print(hist.history)
-model2.save('divided_by_20_keras_model/model_case_%s.h5' % (case_type), include_optimizer=False)
+model2.save('divided_by_20_keras_model/M2_kaigi3/model_case_%s.h5' % (case_type), include_optimizer=False)
 
