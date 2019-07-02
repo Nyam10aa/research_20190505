@@ -5,6 +5,8 @@ from keras.optimizers import SGD, Adam
 import keras
 import numpy as np
 import sys
+import boto3
+import io
 
 #x = np.load("l%03d_%03d_for_test/learn_data.npy" % (start,end))
 #y = np.load("l%03d_%03d_for_test/learn_labels.npy" % (start,end))
@@ -40,8 +42,18 @@ def case_2():
 if case_type == 2:
 	x,y = case_2()
 
+def read_from_s3(file_path, file_name):
+        s3 = boto3.client('s3')
+        obj = s3.get_object(Bucket='takenaka', Key = file_path + file_name)
+        return io.BytesIO(obj['Body'].read())
+
 #x = np.load("./divided_by_20/datas_%03d_%03d.npy" % (case_type, case_type))
 #y = np.load("./divided_by_20/labels_%03d_%03d.npy" % (case_type, case_type))
+x = np.load(read_from_s3('processed_data_STD/','datas_%03d_%03d.npy' % (case_type, case_type)))
+y = np.load(read_from_s3('processed_data_STD/','labels_%03d_%03d.npy' % (case_type, case_type)))
+
+
+
 print(x.shape)
 print(y.shape)
 #X = x.reshape(x.shape[0], 360*18*3)
@@ -90,7 +102,7 @@ class TestCallback(keras.callbacks.Callback):
 #num_epoch=20
 #model.fit(X, y, validation_data=(X_test, y_test), callbacks=[TestCallback((X_test, y_test))], epochs=num_epoch+1, batch_size=100,verbose=0)
 #for i in range(10):
-hist=model2.fit(x,y, validation_split=0.01, batch_size=100, epochs=20) 
+hist=model2.fit(x,y, validation_split=0.01, batch_size=100, epochs=100) 
 print(hist.history)
-model2.save('divided_by_20_keras_model/M2_kaigi3/model_case_%s.h5' % (case_type), include_optimizer=False)
+model2.save('divided_by_20_keras_model/by_one/model_case_%s.h5' % (case_type), include_optimizer=False)
 

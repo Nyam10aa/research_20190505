@@ -10,7 +10,7 @@ def upload():
 	try:
 		for i in range(301,800):
 			#file_stream = 'model_case_%d.h5' % i
-			file_stream = 'labels_%03d_%03d.npy' % (i, i)
+			file_stream = 'datas_%03d_%03d.npy' % (i, i)
 			bucket.upload_file(path +file_stream, bucket_path + file_stream)
 			print(path+file_stream)
 	except:
