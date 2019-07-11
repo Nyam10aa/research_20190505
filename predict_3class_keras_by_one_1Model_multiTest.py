@@ -40,8 +40,8 @@ for start in range(startt, endd+1):
     # print('Test accuracy:', score[1])
 
     pic_name = pd.read_csv("divided_by_20_pic_name/pic_name_%03d_%03d.csv" % (start, start))["filename"].tolist()
-
     pic_name1 = []
+    end = start
     for i in range(len(pic_name)):
             for folder in range(start, end+1):
                     if pic_name[i].startswith("%03d" % folder):
@@ -163,7 +163,7 @@ for start in range(startt, endd+1):
                     matched=matched+table_dic_for_total[j][j]
                     alll=alll+np.sum(table_dic_for_total[j])
             print(matched/float(alll))
-    	with open(output, mode="a") as f:
+            with open(output, mode="a") as f:
     		f.write(str(model_type)+","+str(start)+","+str(matched/float(alll))+"\n")
             f.close()
     	#---------------------------------------
