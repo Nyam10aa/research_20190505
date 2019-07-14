@@ -166,8 +166,8 @@ for start in range(startt, endd+1):
                         alll=alll+np.sum(table_dic_for_total[j])
                 print(matched/float(alll))
                 with open(output, mode="a") as f:
-                f.write(str(model_type)+","+str(start)+","+str(matched/float(alll))+"\n")
-                f.close()
+                	f.write(str(model_type)+","+str(start)+","+str(matched/float(alll))+"\n")
+                	f.close()
             #---------------------------------------
         print("big_dic and big_dic_detailed")
         print(big_dic)
