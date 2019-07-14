@@ -35,7 +35,7 @@ for start in range(1, 724):
     x_test_total = np.load(read_from_s3('processed_data_STD/', 'datas_%03d_%03d.npy' % (start, start)))
     y_test_total = np.load(read_from_s3('processed_data_STD/', 'labels_%03d_%03d.npy' % (start, start)))
     x_datas.append(x_test_total)
-    y_test_total.append(y_test_total)
+    y_datas.append(y_test_total)
     print("="*10, start, "="*10)
     elapsed_time = time.time() - start
     print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
