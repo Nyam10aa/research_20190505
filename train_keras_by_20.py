@@ -23,18 +23,18 @@ case_type = int(sys.argv[1])
 
 def case_2():
 	#train_list = list(range(36,141))
-	train_list = list(range(141,724))# + list(range(106,141))
+	train_list = [8, 57, 61, 156, 164, 197, 254, 269, 286, 297, 340, 343, 352, 408, 417, 430, 448, 457, 462, 482, 524, 525, 588, 595, 616, 617, 640, 665, 675, 677, 679, 689, 711]# + list(range(106,141))
 	print("train set")
 	print(train_list)
 	case = train_list[0]
-	x = np.load("./divided_by_20/datas_%03d_%03d.npy" % (case, case))
-	y = np.load("./divided_by_20/labels_%03d_%03d.npy" % (case, case))
+	x = np.load(read_from_s3('processed_data_STD/','datas_%03d_%03d.npy' % (case, case)))
+	y = np.load(read_from_s3('processed_data_STD/','labels_%03d_%03d.npy' % (case, case)))
 	for case in train_list[1:]:
 		print("check")
 		print(len(x))
 		print(len(y))
-		x1= np.load("./divided_by_20/datas_%03d_%03d.npy" % (case, case))
-		y1= np.load("./divided_by_20/labels_%03d_%03d.npy" % (case, case))
+		x1 = np.load(read_from_s3('processed_data_STD/','datas_%03d_%03d.npy' % (case, case)))
+		y1 = np.load(read_from_s3('processed_data_STD/','labels_%03d_%03d.npy' % (case, case)))
 		x = np.concatenate([x, x1])
 		y = np.concatenate([y, y1])
 	return x, y
@@ -49,8 +49,8 @@ def read_from_s3(file_path, file_name):
 
 #x = np.load("./divided_by_20/datas_%03d_%03d.npy" % (case_type, case_type))
 #y = np.load("./divided_by_20/labels_%03d_%03d.npy" % (case_type, case_type))
-x = np.load(read_from_s3('processed_data_STD/','datas_%03d_%03d.npy' % (case_type, case_type)))
-y = np.load(read_from_s3('processed_data_STD/','labels_%03d_%03d.npy' % (case_type, case_type)))
+#x = np.load(read_from_s3('processed_data_STD/','datas_%03d_%03d.npy' % (case_type, case_type)))
+#y = np.load(read_from_s3('processed_data_STD/','labels_%03d_%03d.npy' % (case_type, case_type)))
 
 
 
@@ -104,5 +104,5 @@ class TestCallback(keras.callbacks.Callback):
 #for i in range(10):
 hist=model2.fit(x,y, validation_split=0.01, batch_size=100, epochs=100) 
 print(hist.history)
-model2.save('divided_by_20_keras_model/by_one/model_case_%s.h5' % (case_type), include_optimizer=False)
+model2.save('divided_by_20_keras_model/M2_kaigi4/model_case_%s.h5' % (case_type), include_optimizer=False)
 
