@@ -19,6 +19,10 @@ import io
 #y = np.load("divided_by_20/labels_001_020.npy")
 #x_test = np.load("divided_by_20/data_121_140.npy")
 #y_test = np.load("divided_by_20/labels_121_140.npy")
+def read_from_s3(file_path, file_name):
+        s3 = boto3.client('s3')
+        obj = s3.get_object(Bucket='takenaka', Key = file_path + file_name)
+        return io.BytesIO(obj['Body'].read())
 case_type = int(sys.argv[1])
 
 def case_2():
