@@ -25,9 +25,9 @@ def read_from_s3(file_path, file_name):
         return io.BytesIO(obj['Body'].read())
 case_type = int(sys.argv[1])
 
-def case_2():
+def case_3():
 	#train_list = list(range(36,141))
-	train_list = [8, 57, 61, 156, 164, 197, 254, 269, 286, 297, 340, 343, 352, 408, 417, 430, 448, 457, 462, 482, 524, 525, 588, 595, 616, 617, 640, 665, 675, 677, 679, 689, 711]# + list(range(106,141))
+	train_list = [3, 56, 88, 106, 116, 145, 172, 244, 245, 309, 445, 500, 503, 506, 563, 568, 575, 587, 612, 632, 633, 634, 636, 655, 691, 712]# + list(range(106,141))
 	print("train set")
 	print(train_list)
 	case = train_list[0]
@@ -43,8 +43,8 @@ def case_2():
 		y = np.concatenate([y, y1])
 	return x, y
 
-if case_type == 2:
-	x,y = case_2()
+if case_type == 3:
+	x,y = case_3()
 
 def read_from_s3(file_path, file_name):
         s3 = boto3.client('s3')
