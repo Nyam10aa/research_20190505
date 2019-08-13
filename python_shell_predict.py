@@ -5,10 +5,10 @@ import sys
 #end = int(sys.argv[2])
 
 #------------1Model multiTest------------------
-for model in [144, 213, 244]:#range(197,724):
+for model in range(245,724):#[144, 213, 244]:#range(197,724):
  	#for startt in range(1,723):
  	print(model)
- 	os.system("time python predict_3class_keras_by_one_1Model_multiTest.py %d %d %d divided_by_20_results/result_0714_723x723.csv" % (model, 1, 723))
+ 	os.system("time python predict_3class_keras_by_one_1Model_multiTest.py %d %d %d divided_by_20_results/result_0808_723x723.csv" % (model, 1, 723))
 
 
 #------------multiModel 1Test------------------

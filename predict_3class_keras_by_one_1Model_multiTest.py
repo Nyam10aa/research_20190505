@@ -164,7 +164,14 @@ for start in range(startt, endd+1):
                     alll=alll+np.sum(table_dic_for_total[j])
             print(matched/float(alll))
             with open(output, mode="a") as f:
-    		f.write(str(model_type)+","+str(start)+","+str(matched/float(alll))+"\n")
+		detail_info = []
+		detail_info1 = []
+		for j in range(3):
+			detail_info += list(table_dic_for_total[j])
+			detail_info1 += list(100*table_dic_for_total[j]/float(np.sum(table_dic_for_total[j])))
+		detail_info = ",".join(map(str,detail_info))
+		detail_info1 = ",".join(map(str,detail_info1))
+    		f.write(str(model_type)+","+str(start)+","+str(matched/float(alll))+","+detail_info+","+detail_info1+"\n")
             f.close()
     	#---------------------------------------
     print("big_dic and big_dic_detailed")
