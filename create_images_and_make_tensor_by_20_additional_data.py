@@ -27,11 +27,11 @@ for i in range(start, end+1):
                 	#key1 = ("newDI_step_%03d%03d.csv" % (i+1,j+1))
                 	name.append(key)
                 	#name1.append(key1)
-std = ["STD_1F","STD_2F","STD_3F","STD_4F","STD_5F","STD_6F","STD_7F","STD_8F","STD_9F","STD_10F","STD_11F","STD_12F","STD_13F","STD_14F","STD_15F","STD_16F","STD_17F","STD_18F"]
+#std = ["STD_1F","STD_2F","STD_3F","STD_4F","STD_5F","STD_6F","STD_7F","STD_8F","STD_9F","STD_10F","STD_11F","STD_12F","STD_13F","STD_14F","STD_15F","STD_16F","STD_17F","STD_18F"]
 #lbl = ["DI_1F","DI_2F","DI_3F","DI_4F","DI_5F","DI_6F","DI_7F","DI_8F","DI_9F","DI_10F","DI_11F","DI_12F","DI_13F","DI_14F","DI_15F","DI_16F","DI_17F","DI_18F"]
-#std = ['ACC_2FL','ACC_3FL','ACC_4FL','ACC_5FL','ACC_6FL','ACC_7FL','ACC_8FL','ACC_9FL','ACC_10FL','ACC_11FL','ACC_12FL','ACC_13FL','ACC_14FL','ACC_15FL','ACC_16FL','ACC_17FL','ACC_18FL','ACC_RFL']
-#lbl = ["maxDI_1F","maxDI_2F","maxDI_3F","maxDI_4F","maxDI_5F","maxDI_6F","maxDI_7F","maxDI_8F","maxDI_9F","maxDI_10F","maxDI_11F","maxDI_12F","maxDI_13F","maxDI_14F","maxDI_15F","maxDI_16F","maxDI_17F","maxDI_18F"]
-lbl1 = ['DI_1F','DI_2F','DI_3F','DI_4F','DI_5F','DI_6F','DI_7F','DI_8F','DI_9F','DI_10F','DI_11F','DI_12F','DI_13F','DI_14F','DI_15F','DI_16F','DI_17F','DI_18F']
+std = ['ACC_1FL','ACC_2FL','ACC_3FL','ACC_4FL','ACC_5FL','ACC_6FL','ACC_7FL','ACC_8FL','ACC_9FL','ACC_10FL','ACC_11FL','ACC_12FL','ACC_13FL','ACC_14FL','ACC_15FL','ACC_16FL','ACC_17FL','ACC_18FL','ACC_RFL']
+lbl = ["maxDI_1F","maxDI_2F","maxDI_3F","maxDI_4F","maxDI_5F","maxDI_6F","maxDI_7F","maxDI_8F","maxDI_9F","maxDI_10F","maxDI_11F","maxDI_12F","maxDI_13F","maxDI_14F","maxDI_15F","maxDI_16F","maxDI_17F","maxDI_18F"]
+#lbl1 = ['DI_1F','DI_2F','DI_3F','DI_4F','DI_5F','DI_6F','DI_7F','DI_8F','DI_9F','DI_10F','DI_11F','DI_12F','DI_13F','DI_14F','DI_15F','DI_16F','DI_17F','DI_18F']
 
 # default = 180
 pic_length = 360
@@ -86,10 +86,11 @@ for n in name:
 		if check_func("".join(map(str,data.iloc[i*pic_length:i*pic_length+pic_length][lbl1].max().tolist()))):
 			pic = data.iloc[i*pic_length:i*pic_length+pic_length][std]
 			pic = pic.values.tolist()
-			pic_name['filename'].append(n[12:18]+str(i)+'_'+"".join(map(str,data.iloc[i*pic_length:i*pic_length+pic_length][lbl1].max().tolist()))+'.jpg')
+			pic_name['filename'].append(n[12:18]+str(i)+'_'+"".join(map(str,data.iloc[i*pic_length:i*pic_length+pic_length][lbl].max().tolist()))+'.jpg')
 			datas.append(d2_to_d3(pic))
-			labels.append(label_settings_3class("".join(map(str,data.iloc[i*pic_length:i*pic_length+pic_length][lbl1].max().tolist()))))
-
+			labels.append(label_settings_3class("".join(map(str,data.iloc[i*pic_length:i*pic_length+pic_length][lbl].max().tolist()))))
+			
+			
 np.save(path+"datas_%03d_%03d.npy" % (start+1, end+1), datas)
 np.save(path+"labels_%03d_%03d.npy" % (start+1, end+1), labels)
 
